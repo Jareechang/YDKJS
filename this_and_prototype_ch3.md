@@ -256,12 +256,12 @@ myObject.hasOwnProperty("b") // false
 **subtle difference between `in` and `Object.hasOwnProperty(..)`:**
 
 1. in 
-- Check if property is in the object, but it also checks its prototype for the property.
-- Check is only existence for property name ( example: `4 in [2,4,6]; // false` )
+    - Check if property is in the object, but it also checks its prototype for the property.
+    - Check is only existence for property name ( example: `4 in [2,4,6]; // false` )
 2. Object.hasOwnProperty 
-- Checks to see if property exists in the **object in question**
-- Object.hasOwnProperty is accessible via *deletgation* through Object.prototype
-with `Object.create(null)`, it will fail. A way around it is to use `Object.prototype.hasOwnProperty(myObject,"a")`
+    - Checks to see if property exists in the **object in question**
+    - Object.hasOwnProperty is accessible via *deletgation* through Object.prototype
+    with `Object.create(null)`, it will fail. A way around it is to use `Object.prototype.hasOwnProperty(myObject,"a")`
 
 
 
