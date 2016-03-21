@@ -161,6 +161,70 @@ So, these objects don't end up quited **linked** than separated and disconnected
 **Conclusion**: `new Foo()` indirectly creates an new object that links to another object
 
 
+## Review 
 
+##### new vs Object.create(..)
+
+**Note:** using the following as example in explanation
+
+``` javascript
+function Foo() {
+    // ...
+}
+
+var a = new Foo();
+```
+
+**New** 
+
+functions themselves are not constructors, when `new Foo()` is used, the **constructor** 
+property is invoked. The `new Foo()` basically "hijacks" any normal function, calls it in a 
+way that constructs an object.
+
+Additionally, the new object created from the `new Foo()` keyword will be internally `[[prototype]]`-linked to 
+the "Foo dot prototype" of the original function.
+
+**Note:** this is more an accidental side effect of the `new` feature (where **a new object links to another object**).
+        a more direct way is to use `Object.create(...)`
+
+**Object.create(..)**
+
+Creating proper links between object with no side-effects, see example :
+
+``` javascript
+function Foo(name) {
+    this.name = name;
+}
+
+Foo.prototype.myName = function() {
+    return this.name;
+}
+
+function Bar(name) {
+    this.name = name;
+}
+
+// Create new Bar.prototype linked to `Foo.prototype````
+Bar.prototype = Object.create(Foo.prototype);
+
+```
+Essentially, the example above, `Object.create(..)` creates a "new" object, and links
+the new object's internal [[prototype]] to the object you specify (in our example, Foo.prototype).
+
+##### linking Misconceptions
+
+```
+Bar.prototype = Foo.prototype;
+```
+
+Rather than linking to a new object, it directly links to the `Foo.prototype` object. 
+While modifying `Bar.prototype`, you are also modifying `Foo.prototype` (the same object). 
+
+```
+Bar.prototype = new Foo();
+```
+
+This does create a new object, however, it uses `Foo(..)` "constructor call" (`.constructor`)
+it comes with the side effect (state change, logging .. etc) of the function.
 
 
